@@ -1,4 +1,6 @@
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
+import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "next/router";
 
 interface SignUpdata {
   name: string;
@@ -7,9 +9,12 @@ interface SignUpdata {
 }
 
 const SignUpForm: React.FC = () => {
+  const router = useRouter();
+  const auth = useAuth();
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = (data: SignUpdata) => {
-    console.log(data);
+    auth.signUp(data);
+    router.push("/dashboard");
   };
 
   return (
@@ -106,4 +111,4 @@ const SignUpForm: React.FC = () => {
   );
 };
 
-export default SignUpForm
+export default SignUpForm;
