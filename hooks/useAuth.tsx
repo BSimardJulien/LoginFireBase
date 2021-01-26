@@ -20,7 +20,7 @@ export const useAuth: any = () => {
 };
 
 const useAuthProvider = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('');
   const createUser = (user) => {
     return db
       .collection("users")
@@ -45,6 +45,7 @@ const useAuthProvider = () => {
         return { error };
       });
   };
+  const signIn = ({email})
   return {
     user,
     signUp,
