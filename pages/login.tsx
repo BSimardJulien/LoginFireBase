@@ -21,6 +21,18 @@ const LoginPage: React.FC = () => {
         </div>
         <div className="mt-8 bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <LoginForm />
+          <div className="mt-4 flex items-end">
+            <div className="text-sm leading-5">
+              <Link href="/resetpassword">
+                <a
+                  href="#"
+                  className="font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+                >
+                  Forgot your password?
+                </a>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </div>
