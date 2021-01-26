@@ -13,7 +13,8 @@ const LoginPage: React.FC = () => {
             {"Vous n'avez pas de compte ?"}
             <Link href="/signup">
               <a href="#" className="text-blue-500">
-                {" "}Creer un compte
+                {" "}
+                Creer un compte
               </a>
             </Link>
           </p>
@@ -23,7 +24,7 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default LoginPage;

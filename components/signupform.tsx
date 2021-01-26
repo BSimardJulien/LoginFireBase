@@ -13,8 +13,9 @@ const SignUpForm: React.FC = () => {
   const auth = useAuth();
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = (data: SignUpdata) => {
-    auth.signUp(data);
-    router.push("/dashboard");
+    return auth.signIn(data).then(() => {
+      router.push("/dashboard");
+    });
   };
 
   return (

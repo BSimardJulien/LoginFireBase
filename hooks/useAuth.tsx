@@ -6,6 +6,7 @@ import {
   ReactNode,
 } from "react";
 import { auth, db } from "../config/firebase";
+import firebase from "firebase";
 
 const authContext = createContext({ user: {} });
 const { Provider } = authContext;
@@ -20,7 +21,24 @@ export const useAuth: any = () => {
 };
 
 const useAuthProvider = () => {
-  const [user, setUser] = useState('');
+  const [user, setUser] = useState("");
+
+  useEffect(() => {
+    const unsub = auth.onAuthStateChanged(handleAuthStateChanged);
+
+    return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    if (user?.uid) {
+      // Subscribe to user document on mount
+      const unsubscribe = db
+        .collection("users")
+        .doc(user.uid)
+        .onSnapshot((doc) => setUser(doc.data()));
+      return () => unsubscribe();
+    }
+  }, []);
   const createUser = (user) => {
     return db
       .collection("users")
@@ -45,9 +63,45 @@ const useAuthProvider = () => {
         return { error };
       });
   };
-  const signIn = ({email})
+  const signIn = ({ email, password }) => {
+    return auth
+      .signInWithEmailAndPassword(email, password)
+      .then((response) => {
+        setUser(response.user);
+        getUserAdditionalData(user);
+        return response.user;
+      })
+      .catch((error) => {
+        return { error };
+      });
+  };
+
+  const getUserAdditionalData = (user: firebase.User) => {
+    return db
+      .collection("users")
+      .doc(user.uid)
+      .get()
+      .then((userData) => {
+        if (userData.data()) {
+          setUser(userData.data());
+        }
+      });
+  };
+  const handleAuthStateChanged = (user: firebase.User) => {
+    setUser(user);
+    if (user) {
+      getUserAdditionalData(user);
+    }
+  };
+
+  const signOut = () => {
+    return auth.signOut().then(() => setUser(false));
+  };
+
   return {
     user,
     signUp,
+    signIn,
+    signOut,
   };
 };
