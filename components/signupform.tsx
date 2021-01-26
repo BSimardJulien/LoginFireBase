@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "next/router";
+import LoadingButton from "./loadingbutton";
+import { useState } from "react";
 
 interface SignUpdata {
   name: string;
@@ -9,12 +11,17 @@ interface SignUpdata {
 }
 
 const SignUpForm: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const router = useRouter();
   const auth = useAuth();
   const { register, errors, handleSubmit } = useForm();
-  const onSubmit = (data: SignUpdata) => {
-    return auth.signIn(data).then(() => {
-      router.push("/dashboard");
+  const onSubmit = (data: LoginData) => {
+    setIsLoading(true);
+    setError(null);
+    return auth.signUp(data).then((response) => {
+      setIsLoading(false);
+      response.error ? setError(response.error) : router.push("/dashboard");
     });
   };
 
@@ -100,12 +107,7 @@ const SignUpForm: React.FC = () => {
       </div>
       <div className="mt-6">
         <span className="block w-full rounded-md shadow-sm">
-          <button
-            type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition duration-150 ease-in-out"
-          >
-            Sign up
-          </button>
+          <LoadingButton title="Sign up" type="submit" isLoading={isLoading} />
         </span>
       </div>
     </form>

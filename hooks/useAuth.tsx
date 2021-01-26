@@ -21,7 +21,7 @@ export const useAuth: any = () => {
 };
 
 const useAuthProvider = () => {
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState('');
 
   useEffect(() => {
     const unsub = auth.onAuthStateChanged(handleAuthStateChanged);
