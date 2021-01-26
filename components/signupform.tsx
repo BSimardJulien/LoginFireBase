@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 
 interface SignUpdata {
   name: string;
@@ -106,4 +106,4 @@ const SignUpForm: React.FC = () => {
   );
 };
 
-export default SignUpForm;
+export default SignUpForm
