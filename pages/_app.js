@@ -1,6 +1,6 @@
 import "../styles/tailwind.css";
 import { AppsProps } from "next/app";
-import { AuthProvider } from "../hooks/useAuth";
+import { AuthProvider } from "../utils/hooks/useAuth";
 
 function MyApp({ Component, pageProps }) {
   return (

@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../utils/hooks/useAuth";
 import { useRouter } from "next/router";
 import LoadingButton from "./loadingbutton";
 import { useState } from "react";
@@ -16,7 +16,7 @@ const SignUpForm: React.FC = () => {
   const router = useRouter();
   const auth = useAuth();
   const { register, errors, handleSubmit } = useForm();
-  const onSubmit = (data: LoginData) => {
+  const onSubmit = (data: SignUpdata) => {
     setIsLoading(true);
     setError(null);
     return auth.signUp(data).then((response) => {
@@ -43,11 +43,11 @@ const SignUpForm: React.FC = () => {
             required: "Please enter an name",
           })}
         />
-        {/* {errors.password && (
+        {errors.name && (
           <div className="mt-2 text-xs text-red-600">
-            {errors.password.message}
+            {errors.name.message}
           </div>
-        )} */}
+        )}
       </div>
       <div className="mt-6">
         <label

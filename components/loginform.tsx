@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../utils/hooks/useAuth";
 import LoadingButton from "./loadingbutton";
 
 interface LoginData {
