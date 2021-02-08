@@ -40,7 +40,10 @@ const CalendarPage: React.FC = (props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const cookies = nookies.get(context);
+    
     const userData = JSON.parse(cookies.userData);
+    console.log(cookies.userData);
+    
     const users = await connectionDB.query(
       `SELECT * FROM employe WHERE courriel='${userData.email}'`
     );

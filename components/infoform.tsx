@@ -13,7 +13,7 @@ interface InfoFormProps {
 
 const InfoForm: React.FC = () => {
   const [error, setError] = useState("");
-  const { errors,handleSubmit } = useForm();
+  const { register, errors, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAuth();
 
@@ -31,6 +31,8 @@ const InfoForm: React.FC = () => {
         name={"app"}
         value={""}
         isRequired={false}
+        register={register}
+        errorMessage={errors}
       />
 
       <TextFormInfo
@@ -39,15 +41,18 @@ const InfoForm: React.FC = () => {
         name={"addresse"}
         value={""}
         isRequired={true}
+        register={register}
       />
-      
+
       <TextFormInfo
         id={"province"}
         type={"text"}
         name={"province"}
         value={""}
         isRequired={true}
+        register={register}
       />
+
       <div className="mt-6">
         <span className="block w-full rounded-md shadow-sm">
           <LoadingButton
