@@ -8,6 +8,8 @@ import InfoForm from "../components/infoform";
 const CalendarPage: React.FC = (props) => {
   const auth = useRequireAuth();
   const userInfo = props.users;
+  // console.log(userInfo);
+  
 
   if (!auth.user) return null;
   return (
@@ -16,7 +18,7 @@ const CalendarPage: React.FC = (props) => {
       <div className="min-h-screen flex flex-col bg-gray-200">
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="text-center mt-24">
-              <InfoForm />
+              <InfoForm user={userInfo[0]}  />
           </div>
         </div>
       </div>
@@ -42,7 +44,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookies = nookies.get(context);
     
     const userData = JSON.parse(cookies.userData);
-    console.log(cookies.userData);
+    // console.log(cookies.userData);
     
     const users = await connectionDB.query(
       `SELECT * FROM employe WHERE courriel='${userData.email}'`

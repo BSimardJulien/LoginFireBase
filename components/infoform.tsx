@@ -2,54 +2,88 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAuth } from "../utils/hooks/useAuth";
 import LoadingButton from "./loadingbutton";
-import { TextFormInfoProps } from "../utils/types";
 import TextFormInfo from "./textforminfo";
+import { connectionDB } from "../config/database";
 
 interface InfoFormProps {
-  app: TextFormInfoProps;
-  addresse: TextFormInfoProps;
-  Province: TextFormInfoProps;
+  user: string;
 }
 
-const InfoForm: React.FC = () => {
+const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
   const [error, setError] = useState("");
   const { register, errors, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAuth();
+  console.log(user);
 
   const onSubmit = (data: InfoFormProps) => {
     setIsLoading(true);
     setError(null);
-    console.log(data);
+    // connectionDB.query(`UPDATE employe noEmploye=69420 WHERE noEmploye=1168`);
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <TextFormInfo
-        id={"app"}
         type={"text"}
-        name={"app"}
-        value={""}
+        name={"Appt"}
         isRequired={false}
-        register={register}
-        errorMessage={errors}
-      />
-
-      <TextFormInfo
-        id={"addresse"}
-        type={"text"}
-        name={"addresse"}
-        value={""}
-        isRequired={true}
+        defaultValue={user.appt}
+        errors={errors.Appt}
         register={register}
       />
 
       <TextFormInfo
-        id={"province"}
         type={"text"}
-        name={"province"}
-        value={""}
+        name={"Adresse"}
         isRequired={true}
+        defaultValue={user.adresse}
+        errors={errors.Adresse}
+        register={register}
+      />
+
+      <TextFormInfo
+        type={"text"}
+        name={"Province"}
+        isRequired={true}
+        defaultValue={user.province}
+        errors={errors.Province}
+        register={register}
+      />
+
+      <TextFormInfo
+        type={"text"}
+        name={"CodePostal"}
+        isRequired={true}
+        defaultValue={user.codePostal}
+        errors={errors.CodePostal}
+        register={register}
+      />
+
+      <TextFormInfo
+        type={"text"}
+        name={"Telephone"}
+        isRequired={true}
+        defaultValue={user.telephone}
+        errors={errors.Telephone}
+        register={register}
+      />
+
+      <TextFormInfo
+        type={"text"}
+        name={"Cellulaire"}
+        isRequired={true}
+        defaultValue={user.cellulaire}
+        errors={errors.Cellulaire}
+        register={register}
+      />
+
+      <TextFormInfo
+        type={"text"}
+        name={"Courriel"}
+        isRequired={true}
+        defaultValue={user.courriel}
+        errors={errors.Courriel}
         register={register}
       />
 
