@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../utils/hooks/useAuth";
 import LoadingButton from "./loadingbutton";
 import TextFormInfo from "./textforminfo";
-import { connectionDB } from "../config/database";
 
 interface InfoFormProps {
   user: string;
@@ -16,10 +15,9 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
   const auth = useAuth();
   console.log(user);
 
-  const onSubmit = (data: InfoFormProps) => {
+  const onSubmit =  (data: InfoFormProps) => {
     setIsLoading(true);
     setError(null);
-    // connectionDB.query(`UPDATE employe noEmploye=69420 WHERE noEmploye=1168`);
   };
 
   return (

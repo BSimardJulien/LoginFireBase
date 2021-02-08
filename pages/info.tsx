@@ -23,19 +23,6 @@ const CalendarPage: React.FC = (props) => {
         </div>
       </div>
     </div>
-    // <div>
-    //   <Navbar />
-    //   {userInfo.map((user) => {
-    //     return (
-    //       <div>
-    //         <div> {user.nom}</div>
-    //         <div> {user.courriel}</div>
-    //         <div> {user.ville}</div>
-    //         <div> {user.province}</div>
-    //       </div>
-    //     );
-    //   })}
-    // </div>
   );
 };
 
