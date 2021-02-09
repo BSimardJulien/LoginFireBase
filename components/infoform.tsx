@@ -3,21 +3,44 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../utils/hooks/useAuth";
 import LoadingButton from "./loadingbutton";
 import TextFormInfo from "./textforminfo";
+import { updateEmployeInfo } from "../config/database";
+import router from "next/router";
 
 interface InfoFormProps {
-  user: string;
+  appt: string;
+  adresse: string;
+  ville: string;
+  province: string;
+  codepostal: string;
+  telephone: string;
+  cellulaire: string;
+  courriel: string;
+  noEmploye: string;
 }
 
-const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
+const InfoForm: React.FC<InfoFormProps> = ({
+  appt,
+  adresse,
+  ville,
+  province,
+  codepostal,
+  telephone,
+  cellulaire,
+  courriel,
+  noEmploye,
+}) => {
   const [error, setError] = useState("");
   const { register, errors, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAuth();
-  console.log(user);
 
-  const onSubmit =  (data: InfoFormProps) => {
+  const onSubmit = (data: InfoFormProps) => {
     setIsLoading(true);
     setError(null);
+    console.log(data);
+    router.push(
+      `/${data.Appt}/${data.Adresse}/${data.Ville}/${data.Province}/${data.CodePostal}/${data.Telephone}/${data.Cellulaire}/${data.Courriel}`
+    );
   };
 
   return (
@@ -26,7 +49,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
         type={"text"}
         name={"Appt"}
         isRequired={false}
-        defaultValue={user.appt}
+        defaultValue={appt}
         errors={errors.Appt}
         register={register}
       />
@@ -35,8 +58,17 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
         type={"text"}
         name={"Adresse"}
         isRequired={true}
-        defaultValue={user.adresse}
+        defaultValue={adresse}
         errors={errors.Adresse}
+        register={register}
+      />
+
+      <TextFormInfo
+        type={"text"}
+        name={"Ville"}
+        isRequired={true}
+        defaultValue={ville}
+        errors={errors.Ville}
         register={register}
       />
 
@@ -44,7 +76,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
         type={"text"}
         name={"Province"}
         isRequired={true}
-        defaultValue={user.province}
+        defaultValue={province}
         errors={errors.Province}
         register={register}
       />
@@ -53,7 +85,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
         type={"text"}
         name={"CodePostal"}
         isRequired={true}
-        defaultValue={user.codePostal}
+        defaultValue={codepostal}
         errors={errors.CodePostal}
         register={register}
       />
@@ -62,7 +94,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
         type={"text"}
         name={"Telephone"}
         isRequired={true}
-        defaultValue={user.telephone}
+        defaultValue={telephone}
         errors={errors.Telephone}
         register={register}
       />
@@ -71,7 +103,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
         type={"text"}
         name={"Cellulaire"}
         isRequired={true}
-        defaultValue={user.cellulaire}
+        defaultValue={cellulaire}
         errors={errors.Cellulaire}
         register={register}
       />
@@ -80,7 +112,7 @@ const InfoForm: React.FC<InfoFormProps> = ({ user }) => {
         type={"text"}
         name={"Courriel"}
         isRequired={true}
-        defaultValue={user.courriel}
+        defaultValue={courriel}
         errors={errors.Courriel}
         register={register}
       />

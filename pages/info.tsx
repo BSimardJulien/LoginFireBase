@@ -9,7 +9,6 @@ const CalendarPage: React.FC = (props) => {
   const auth = useRequireAuth();
   const userInfo = props.users;
   // console.log(userInfo);
-  
 
   if (!auth.user) return null;
   return (
@@ -18,7 +17,17 @@ const CalendarPage: React.FC = (props) => {
       <div className="min-h-screen flex flex-col bg-gray-200">
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="text-center mt-24">
-              <InfoForm user={userInfo[0]}  />
+            <InfoForm
+              appt={userInfo[0].appt}
+              adresse={userInfo[0].adresse}
+              ville={userInfo[0].ville}
+              province={userInfo[0].province}
+              codepostal={userInfo[0].codePostal}
+              telephone={userInfo[0].telephone}
+              cellulaire={userInfo[0].cellulaire}
+              courriel={userInfo[0].courriel}
+              noEmploye={userInfo[0].noEmploye}
+            />
           </div>
         </div>
       </div>
@@ -29,13 +38,13 @@ const CalendarPage: React.FC = (props) => {
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
     const cookies = nookies.get(context);
-    
+
     const userData = JSON.parse(cookies.userData);
-    // console.log(cookies.userData);
-    
+  
     const users = await connectionDB.query(
       `SELECT * FROM employe WHERE courriel='${userData.email}'`
     );
+
 
     return {
       props: { users },
