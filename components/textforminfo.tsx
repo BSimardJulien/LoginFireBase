@@ -7,9 +7,9 @@ const TextFormInfo: React.FC<TextFormInfoProps> = ({
   isRequired,
   errors,
   register,
+  readonly,
 }) => {
   var input;
-
   if (isRequired) {
     input = (
       <input
@@ -21,6 +21,7 @@ const TextFormInfo: React.FC<TextFormInfoProps> = ({
         ref={register({
           required: `${name} obligatoire`,
         })}
+        readOnly={readonly}
       />
     );
   } else {
@@ -32,6 +33,7 @@ const TextFormInfo: React.FC<TextFormInfoProps> = ({
         name={name}
         defaultValue={defaultValue}
         ref={register()}
+        readOnly={readonly}
       />
     );
   }

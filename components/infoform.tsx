@@ -39,12 +39,27 @@ const InfoForm: React.FC<InfoFormProps> = ({
     setError(null);
     console.log(data);
     router.push(
-      `/${data.Appt}/${data.Adresse}/${data.Ville}/${data.Province}/${data.CodePostal}/${data.Telephone}/${data.Cellulaire}/${data.Courriel}`
+      `/${data.Appt}/${data.Adresse}/${data.Ville}/${data.Province}/${data.CodePostal}/${data.Telephone}/${data.Cellulaire}/${data.Courriel}/${data.noEmploye}`
     );
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="mt-6 font-bold">
+        <h2>Renseignement invariables</h2>
+      </div>
+      <TextFormInfo
+        type={"text"}
+        name={"noEmploye"}
+        isRequired={false}
+        defaultValue={noEmploye}
+        errors={errors.noEmploye}
+        register={register}
+        readonly={true}
+      />
+      <div className="mt-6 font-bold">
+        <h2>Renseignement personnels</h2>
+      </div>
       <TextFormInfo
         type={"text"}
         name={"Appt"}
@@ -52,6 +67,7 @@ const InfoForm: React.FC<InfoFormProps> = ({
         defaultValue={appt}
         errors={errors.Appt}
         register={register}
+        readonly={false}
       />
 
       <TextFormInfo
@@ -61,6 +77,8 @@ const InfoForm: React.FC<InfoFormProps> = ({
         defaultValue={adresse}
         errors={errors.Adresse}
         register={register}
+        readonly={false}
+        
       />
 
       <TextFormInfo
@@ -70,6 +88,7 @@ const InfoForm: React.FC<InfoFormProps> = ({
         defaultValue={ville}
         errors={errors.Ville}
         register={register}
+        readonly={false}
       />
 
       <TextFormInfo
@@ -79,6 +98,7 @@ const InfoForm: React.FC<InfoFormProps> = ({
         defaultValue={province}
         errors={errors.Province}
         register={register}
+        readonly={false}
       />
 
       <TextFormInfo
@@ -88,6 +108,7 @@ const InfoForm: React.FC<InfoFormProps> = ({
         defaultValue={codepostal}
         errors={errors.CodePostal}
         register={register}
+        readonly={false}
       />
 
       <TextFormInfo
@@ -97,6 +118,7 @@ const InfoForm: React.FC<InfoFormProps> = ({
         defaultValue={telephone}
         errors={errors.Telephone}
         register={register}
+        readonly={false}
       />
 
       <TextFormInfo
@@ -106,15 +128,7 @@ const InfoForm: React.FC<InfoFormProps> = ({
         defaultValue={cellulaire}
         errors={errors.Cellulaire}
         register={register}
-      />
-
-      <TextFormInfo
-        type={"text"}
-        name={"Courriel"}
-        isRequired={true}
-        defaultValue={courriel}
-        errors={errors.Courriel}
-        register={register}
+        readonly={false}
       />
 
       <div className="mt-6">

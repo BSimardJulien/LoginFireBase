@@ -8,4 +8,5 @@ export interface TextFormInfoProps {
     isRequired: boolean;
     errors: DeepMap<Record<string, any>, FieldError>;
     register: any;
+    readonly: boolean;
 }

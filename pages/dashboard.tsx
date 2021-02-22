@@ -1,10 +1,19 @@
 import { useRequireAuth } from "../utils/hooks/useRequireAuth";
 import Navbar from "../components/navbar";
+import Link from "next/link";
 
 const DashBoardPage: React.FC = () => {
   const auth = useRequireAuth();
 
-  if (!auth.user) return null;
+  if (!auth.user)
+    return (
+      <Link href="/login">
+        <a href="#" className="text-blue-500">
+          {" "}
+          Retourner à la page d'accueil
+        </a>
+      </Link>
+    );
   return (
     <div>
       <Navbar />
