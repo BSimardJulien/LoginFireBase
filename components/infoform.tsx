@@ -3,7 +3,6 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../utils/hooks/useAuth";
 import LoadingButton from "./loadingbutton";
 import TextFormInfo from "./textforminfo";
-import { updateEmployeInfo } from "../config/database";
 import router from "next/router";
 
 interface InfoFormProps {

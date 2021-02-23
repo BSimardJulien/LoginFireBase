@@ -1,6 +1,5 @@
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { connectionDB } from "../../../../../../../../../config/database";
 import Navbar from "../../../../../../../../../components/navbar";
 
