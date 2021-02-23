@@ -109,7 +109,11 @@ const useAuthProvider = () => {
     return auth.sendPasswordResetEmail(email).then((response) => {
      return response;
     });
-   };
+  };
+
+  const changeEmailAddress = ({ oldEmail, newEmail, password }) => {
+    return auth.
+  };
 
   return {
     user,
