@@ -27,7 +27,7 @@ const SettingsForm: React.FC<InfoFormProps> = ({
     setIsLoading(true);
     setError(null);
     console.log(data);
-    router.push(`/${data.Courriel}/${data.noEmploye}`);
+    router.push(`changementcourriel/${data.noEmploye}/${data.Courriel}/changementcourriel`);
   };
 
   return (
@@ -83,6 +83,7 @@ const SettingsForm: React.FC<InfoFormProps> = ({
               type="submit"
               isLoading={isLoading}
             />
+            
           </span>
         </div>
       </form>

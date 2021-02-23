@@ -5,7 +5,7 @@ import Navbar from "../../../../../../../../../components/navbar";
 
 const NoEmploye: React.FC = (props) => {
   const router = useRouter();
-  router.push("/info");
+  router.push("/dashboard");
   return (
     <div className="bg-gray-200 min-h-screen">
       <Navbar />
