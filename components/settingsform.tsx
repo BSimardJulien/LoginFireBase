@@ -5,14 +5,14 @@ import LoadingButton from "./loadingbutton";
 import TextFormInfo from "./textforminfo";
 import router from "next/router";
 
-interface InfoFormProps {
+interface SettingsFormProps {
   nom: string;
   prenom: string;
   courriel: string;
   noEmploye: string;
 }
 
-const SettingsForm: React.FC<InfoFormProps> = ({
+const SettingsForm: React.FC<SettingsFormProps> = ({
   nom,
   prenom,
   noEmploye,
@@ -23,11 +23,19 @@ const SettingsForm: React.FC<InfoFormProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const auth = useAuth();
 
-  const onSubmit = (data: InfoFormProps) => {
+  const onSubmit = (data) => {
     setIsLoading(true);
     setError(null);
-    console.log(data);
-    router.push(`changementcourriel/${data.noEmploye}/${data.Courriel}/changementcourriel`);
+    console.log(courriel);
+    console.log(data.Courriel);
+    console.log(data.Password);
+
+    auth.changeEmailAddress(courriel,data.Courriel, data.Password).then((response) => {
+      setIsLoading(false);
+    });
+    router.push(
+      `changementcourriel/${data.noEmploye}/${data.Courriel}/changementcourriel`
+    );
   };
 
   return (
@@ -63,15 +71,31 @@ const SettingsForm: React.FC<InfoFormProps> = ({
           register={register}
           readonly={true}
         />
+
         <div className="mt-6 font-bold">
           <h2>Renseignements changeables</h2>
         </div>
+
         <TextFormInfo
           type={"text"}
           name={"Courriel"}
           isRequired={true}
           defaultValue={courriel}
           errors={errors.Courriel}
+          register={register}
+          readonly={false}
+        />
+
+        <div className="mt-14 font-bold text-red-600">
+          <h3>Entrer votre mot de passe avant de sauvegarder</h3>
+        </div>
+
+        <TextFormInfo
+          type={"password"}
+          name={"Password"}
+          isRequired={true}
+          defaultValue={""}
+          errors={errors.Password}
           register={register}
           readonly={false}
         />
@@ -83,7 +107,6 @@ const SettingsForm: React.FC<InfoFormProps> = ({
               type="submit"
               isLoading={isLoading}
             />
-            
           </span>
         </div>
       </form>

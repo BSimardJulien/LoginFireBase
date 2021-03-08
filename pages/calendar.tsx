@@ -3,6 +3,9 @@ import Navbar from "../components/navbar";
 import Calendar from "react-calendar";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
+import { GetServerSideProps } from "next";
+import {connectionDBLocal, connectionDB } from "../config/database";
+import nookies from "nookies";
 
 const CalendarPage: React.FC = () => {
   const auth = useRequireAuth();
@@ -16,7 +19,13 @@ const CalendarPage: React.FC = () => {
         <div className="min-h-screen flex bg-gray-200 ">
           <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md ">
             <div className=" flex justify-center">
-              <Calendar onChange={onChange} value={value} />
+              <Calendar 
+              onChange={onChange} 
+              value={value}
+              onClickDay={(date)=>{
+                console.log(date);
+              }}
+              />
             </div>
             <div className="px-4 py-3 bg-gray-50 text-center sm:px-6 mt-6">
               <div >
@@ -29,7 +38,9 @@ const CalendarPage: React.FC = () => {
                     name="about"
                     className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"
                     placeholder="Votre commentaire"
-                  ></textarea>
+                  >
+
+                  </textarea>
                 </div>
               </div>
               <button
@@ -44,6 +55,37 @@ const CalendarPage: React.FC = () => {
       </div>
     </div>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  try {
+    const cookies = nookies.get(context);
+
+    const userData = JSON.parse(cookies.userData);
+
+    const noEmployeArr = await connectionDB.query(
+      `SELECT noEmploye FROM employe WHERE courriel='${userData.email}'`
+    );
+
+    const noEmploye = noEmployeArr[0];
+    
+
+    const users = await connectionDBLocal.query(
+      `SELECT * FROM disponibilite WHERE noEmploye='6850'`
+    );
+
+    console.log(users);
+    
+
+    return {
+      props: { users },
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      props: {},
+    };
+  }
 };
 
 export default CalendarPage;

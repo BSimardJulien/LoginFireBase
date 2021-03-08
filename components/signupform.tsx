@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useAuth } from "../utils/hooks/useAuth";
 import { useRouter } from "next/router";
 import LoadingButton from "./loadingbutton";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 interface SignUpdata {
   name: string;
@@ -15,7 +15,9 @@ const SignUpForm: React.FC = () => {
   const [error, setError] = useState("");
   const router = useRouter();
   const auth = useAuth();
-  const { register, errors, handleSubmit } = useForm();
+  const { register, errors, handleSubmit, watch } = useForm();
+  const password = useRef({});
+  password.current = watch("password", "");
   const onSubmit = (data: SignUpdata) => {
     setIsLoading(true);
     setError(null);
@@ -106,8 +108,33 @@ const SignUpForm: React.FC = () => {
         </div>
       </div>
       <div className="mt-6">
+        <label
+          htmlFor="password_repeat"
+          className="block text-sm font-medium leading-5 text-gray-700"
+        >
+          Repeat Password
+        </label>
+        <div className="mt-1 rounded-md shadow-sm">
+          <input
+            id="password_repeat"
+            className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-400 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5"
+            type="password"
+            name="password_repeat"
+            ref={register({
+              validate: value =>
+                value === password.current || "The passwords do not match"
+            })}
+          />
+          {errors.password_repeat && (
+            <div className="mt-2 text-xs text-red-600">
+              {errors.password_repeat.message}
+            </div>
+          )}
+        </div>
+      </div>
+      <div className="mt-6">
         <span className="block w-full rounded-md shadow-sm">
-          <LoadingButton title="Sign up" type="submit" isLoading={isLoading} />
+          <LoadingButton title="Sign up" type="submit" isLoading={isLoading}/>
         </span>
       </div>
     </form>

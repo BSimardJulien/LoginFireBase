@@ -40,6 +40,7 @@ const useAuthProvider = () => {
       return () => unsubscribe();
     }
   }, []);
+
   const createUser = (user) => {
     const {password,...userdata} = user
     return db
@@ -54,6 +55,7 @@ const useAuthProvider = () => {
         return { error };
       });
   };
+
   const signUp = ({ name, email, password }) => {
     return auth
       .createUserWithEmailAndPassword(email, password)
@@ -94,6 +96,15 @@ const useAuthProvider = () => {
         }
       });
   };
+
+  const changeUserEmail = (user: firebase.User,newEmail) => {
+    return db
+      .collection("users")
+      .doc(user.uid)
+      .update({email:newEmail})
+  };
+
+
   const handleAuthStateChanged = (user: firebase.User) => {
     setUser(user);
     if (user) {
@@ -111,9 +122,17 @@ const useAuthProvider = () => {
     });
   };
 
-  const changeEmailAddress = ({ oldEmail, newEmail, password }) => {
-    return auth.
+  const changeEmailAddress = (oldEmail, newEmail, password) => {
+    return auth.signInWithEmailAndPassword(oldEmail,password)
+    .then((response) => {
+      response.user.updateEmail(newEmail);
+      changeUserEmail(user,newEmail);
+    })
+    .catch((error) => {
+      return { error };
+    });
   };
+
 
   return {
     user,
@@ -121,5 +140,6 @@ const useAuthProvider = () => {
     signIn,
     signOut,
     sendPasswordResetEmail,
+    changeEmailAddress,
   };
 };
