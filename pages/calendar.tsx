@@ -8,7 +8,13 @@ import { connectionDBLocal, connectionDB } from "../config/database";
 import nookies from "nookies";
 import { db } from "../config/firebase";
 
-const CalendarPage: React.FC = (props) => {
+interface CalendarPageProps{
+  userAccess:any;
+  users:any;
+  commentaire:any;
+  noEmploye:any;
+}
+const CalendarPage: React.FC<CalendarPageProps> = (props) => {
   const auth = useRequireAuth();
   console.log(props);
   

@@ -9,7 +9,14 @@ import dateformat from "dateformat";
 import ShiftList from "../../../../../components/form/calendar/shiftlist";
 import ShiftDetail from "../../../../../components/shiftdetail"
 
-const Disponibilites: React.FC = (props) => {
+interface DisponibilitesProps{
+  isRH:any;
+  isAdmin:any;
+  shifts:any;
+
+}
+
+const Disponibilites: React.FC<DisponibilitesProps> = (props) => {
 
   var isRH = ( props.isRH == 'true');
   var isAdmin = ( props.isAdmin == 'true');

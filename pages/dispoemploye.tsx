@@ -6,7 +6,10 @@ import { GetServerSideProps } from "next";
 import { db } from "../config/firebase";
 import DispoEmployeForm from "../components/form/dispoemployeForm";
 
-const DashBoardPage: React.FC = (props) => {
+interface DashBoardPageProps{
+  userAccess:any;
+}
+const DashBoardPage: React.FC<DashBoardPageProps> = (props) => {
   const auth = useRequireAuth();
   const userAccess = props.userAccess;
   console.log(userAccess);

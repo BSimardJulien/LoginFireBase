@@ -55,11 +55,11 @@ const DispoEmployeForm: React.FC<DispoEmployeFormProps> = ({isRH,isAdmin}) => {
           />
         </span>
       </div>
-      {error && (
+      {/* {error?.message && (
         <div className="mb-4 text-red-500 text-center border-dashed border border-red-600 p-2 rounded">
           <span>{error.message}</span>
         </div>
-      )}
+      )} */}
     </form>
   );
 };
