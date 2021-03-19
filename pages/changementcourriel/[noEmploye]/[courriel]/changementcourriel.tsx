@@ -8,7 +8,6 @@ const NoEmploye: React.FC = (props) => {
   router.push("/dashboard");
   return (
     <div className="bg-gray-200 min-h-screen">
-      <Navbar />
       <div className ="mt-6 font-bold flex justify-center">LOADING ...</div>
     </div>
   );

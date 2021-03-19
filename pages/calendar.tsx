@@ -1,59 +1,93 @@
 import { useRequireAuth } from "../utils/hooks/useRequireAuth";
 import Navbar from "../components/navbar";
-import CalendarForm from "../components/CalendarForm"
+import CalendarForm from "../components/form/calendar/calendarform";
 import { useState } from "react";
 import "react-calendar/dist/Calendar.css";
 import { GetServerSideProps } from "next";
-import {connectionDBLocal, connectionDB } from "../config/database";
+import { connectionDBLocal, connectionDB } from "../config/database";
 import nookies from "nookies";
+import { db } from "../config/firebase";
 
 const CalendarPage: React.FC = (props) => {
   const auth = useRequireAuth();
-
-  const userComment = props.commentaire[0].commentaire;
-  const userInfo = props.users;
+  console.log(props);
   
+  const userAccess = props.userAccess;
+
+  const userInfo = props.users;
+  var content;
+  var userComment;
+  
+
+  if (props.commentaire[0] === undefined) {
+    userComment = "";
+  } else {
+    userComment = props.commentaire[0].commentaire;
+  }
+  
+
+  content = <CalendarForm commentaire={userComment} shift={userInfo} numEmploye={props.noEmploye} />;
 
   if (!auth.user) return null;
   return (
     <div>
-      <Navbar />
-      <CalendarForm commentaire={userComment} shift={userInfo}/>
+      <Navbar isAdmin={userAccess.admin} isRH={userAccess.RH} />
+      <div className="min-h-screen flex flex-col bg-gray-200">
+        <div className="sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="text-center">{content}</div>
+        </div>
+      </div>
     </div>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
+
+    
     const cookies = nookies.get(context);
+    
 
     const userData = JSON.parse(cookies.userData);
+    const userUID = userData.uid;
+
+    const userAccess = await db
+      .collection("users")
+      .doc(userUID)
+      .get()
+      .then((userData) => {
+        const data = userData.data();
+        if (data) {
+          return data;
+        }
+      });
+    
 
     const noEmployeArr = await connectionDB.query(
       `SELECT noEmploye FROM employe WHERE courriel='${userData.email}'`
     );
 
-    const noEmploye = noEmployeArr[0];
-    
+    const noEmploye = noEmployeArr[0].noEmploye;
+
 
     const users = await connectionDBLocal.query(
-      //`SELECT * FROM disponibilite WHERE noEmploye='${noEmploye}'`
-      `SELECT * FROM disponibilite WHERE noEmploye='6996'`
+      `SELECT * FROM disponibilite WHERE noEmploye='${noEmploye}'`
+      //`SELECT * FROM disponibilite WHERE noEmploye='6996'`
     );
+
 
     const commentaire = await connectionDBLocal.query(
-      //`SELECT commentaire FROM preference WHERE noEmploye='${noEmploye}'`
-      `SELECT commentaire FROM preference WHERE noEmploye='6996'`
+      `SELECT commentaire FROM preference WHERE noEmploye='${noEmploye}'`
+      //`SELECT commentaire FROM preference WHERE noEmploye='6996'`
     );
 
-    
-    
+
 
     return {
-      props: { users,commentaire },
+      props: { users, commentaire, noEmploye,userAccess },
     };
   } catch (error) {
-    console.error(error);
+    
     return {
       props: {},
     };

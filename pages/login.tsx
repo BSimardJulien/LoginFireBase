@@ -1,5 +1,5 @@
 import Link from "next/link";
-import LoginForm from "../components/loginform";
+import LoginForm from "../components/form/loginform";
 import Companylogo from "../components/companylogo";
 
 const LoginPage: React.FC = () => {

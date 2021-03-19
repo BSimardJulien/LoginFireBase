@@ -8,7 +8,6 @@ const NoEmploye: React.FC = (props) => {
   router.push("/dashboard");
   return (
     <div className="bg-gray-200 min-h-screen">
-      <Navbar />
       <div className ="mt-6 font-bold flex justify-center">LOADING ...</div>
     </div>
   );
@@ -16,6 +15,8 @@ const NoEmploye: React.FC = (props) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   try {
+    console.log(context);
+    
     const appt = context.params.appt;
     const adresse = context.params.adresse;
     const ville = context.params.ville;
@@ -25,6 +26,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const cellulaire = context.params.cellulaire;
     const courriel = context.params.courriel;
     const noEmploye = context.params.noEmploye;
+
+    
 
     const users = await connectionDB.query(
       `UPDATE employe SET adresse='${adresse}', ville='${ville}', province='${province}', codePostal='${codepostal}', telephone='${telephone}', cellulaire='${cellulaire}' WHERE noEmploye='${noEmploye}'`

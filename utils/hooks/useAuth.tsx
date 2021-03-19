@@ -89,13 +89,25 @@ const useAuthProvider = () => {
         const data = userData.data()
         if (data) {
           setUser(data);
-          nookies.set(undefined, 'userData',JSON.stringify(user), {
-            maxAge: 30 * 24 * 60 * 60,
-            path: '/',
-          })
+          nookies.set(undefined, 'userData',JSON.stringify(user))
         }
       });
   };
+
+  const getUserAdditionalDataOnUID = (uid) =>{
+    db
+    .collection("users")
+    .doc(uid)
+    .get()
+    .then((userData) => {
+      const data = userData.data()
+      if (data) {
+        return data;
+        // setUser(data);
+        // nookies.set(undefined, 'userData',JSON.stringify(user))
+      }
+    });
+  }
 
   const changeUserEmail = (user: firebase.User,newEmail) => {
     return db
@@ -141,5 +153,6 @@ const useAuthProvider = () => {
     signOut,
     sendPasswordResetEmail,
     changeEmailAddress,
+    getUserAdditionalDataOnUID,
   };
 };

@@ -3,12 +3,14 @@ import Navbar from "../components/navbar";
 import { connectionDB } from "../config/database";
 import { GetServerSideProps } from "next";
 import nookies from "nookies";
-import InfoForm from "../components/infoform";
+import InfoForm from "../components/form/infoform";
+import { db } from "../config/firebase";
 
 const Info: React.FC = (props) => {
   const auth = useRequireAuth();
+  const userAccess = props.userAccess;
   const userInfo = props.users;
-  console.log(userInfo);
+
   var content;
   if (userInfo[0] !== undefined) {
     content = (
@@ -31,7 +33,7 @@ const Info: React.FC = (props) => {
   if (!auth.user) return null;
   return (
     <div>
-      <Navbar />
+      <Navbar isAdmin={userAccess.admin} isRH={userAccess.RH} />
       <div className="min-h-screen flex flex-col bg-gray-200">
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
           <div className="text-center mt-24">{content}</div>
@@ -46,13 +48,34 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     const cookies = nookies.get(context);
 
     const userData = JSON.parse(cookies.userData);
+    const userUID = userData.uid
 
-    const users = await connectionDB.query(
-      `SELECT * FROM employe WHERE courriel='${userData.email}'`
-    );
+    let userAccess;
+
+    let users;
+
+    await Promise.all([
+      (async () => {
+        userAccess = await db
+          .collection("users")
+          .doc(userUID)
+          .get()
+          .then((userData) => {
+            const data = userData.data();
+            if (data) {
+              return data;
+            }
+          });
+      })(),
+      (async () => {
+        users = await connectionDB.query(
+          `SELECT * FROM employe WHERE courriel='${userData.email}'`
+        );
+      })(),
+    ]);
 
     return {
-      props: { users },
+      props: { users, userAccess },
     };
   } catch (error) {
     console.error(error);

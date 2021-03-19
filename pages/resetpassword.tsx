@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import ResetPasswordForm from '../components/resetpasswordform';
+import ResetPasswordForm from '../components/form/resetpasswordform';
 const ResetPasswordPage: React.FC = () => {
  return (
   <div className="min-h-screen flex bg-gray-200">

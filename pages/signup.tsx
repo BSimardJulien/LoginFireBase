@@ -1,5 +1,5 @@
 import Link from "next/link";
-import SignUpForm from "../components/signupform";
+import SignUpForm from "../components/form/signupform";
 import Companylogo from "../components/companylogo";
 
 const SignUpPage: React.FC = () => {
