@@ -1,7 +1,6 @@
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useAuth } from "../../utils/hooks/useAuth";
 import LoadingButton from "../loadingbutton";
 
 interface PermisFormProp{
@@ -16,8 +15,6 @@ const PermisForm: React.FC<PermisFormProp> = ({firstname,lastname,numAgent}) => 
   
   const { register, errors, handleSubmit } = useForm();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-  const auth = useAuth();
   const router = useRouter();
   const onSubmit = (data) => {
     setIsLoading(true);

@@ -15,6 +15,14 @@ interface InfoFormProps {
   cellulaire: string;
   courriel: string;
   noEmploye: string;
+  Appt: string;
+  Adresse: string;
+  Ville: string;
+  Province: string;
+  CodePostal: string;
+  Telephone: string;
+  Cellulaire: string;
+  Courriel: string;
 }
 
 const InfoForm: React.FC<InfoFormProps> = ({
